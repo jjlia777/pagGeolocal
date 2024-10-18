@@ -1,3 +1,4 @@
+CÓDIGO SEM BOTTOM SHEET:
 
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, TextInput, Text, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
