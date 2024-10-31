@@ -1,18 +1,38 @@
-
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, TextInput, Text, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { StyleSheet, View, TextInput, Text, TouchableOpacity, ScrollView, ActivityIndicator, Image } from 'react-native';
 import MapView, { Marker, Polyline } from 'react-native-maps';
-import { Ionicons, FontAwesome } from '@expo/vector-icons'; // Ícones
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import * as Location from 'expo-location';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import HospitalDetails from './pages/HospitalDetails';
 
-export default function App() {
+const Stack = createStackNavigator();
+
+// Dados dos hospitais
+const hospitals = [
+  {
+    id: 1,
+    name: 'Hospital Regional de Ferraz',
+    latitude: -23.537771,
+    longitude: -46.358699,
+    image: require('./assets/hospital1.png'), // Substitua pela imagem real do hospital
+  },
+  {
+    id: 2,
+    name: 'UBS Centro',
+    latitude: -23.532345,
+    longitude: -46.355123,
+    image: require('./assets/ubs.png'), // Substitua pela imagem real da UBS
+  },
+  // Adicione outros hospitais e UBS aqui
+];
+
+function MapScreen({ navigation }) {
   const [location, setLocation] = useState(null);
   const [search, setSearch] = useState('');
   const [route, setRoute] = useState([]);
-  const destination = {
-    latitude: -23.537771481736545,  // Latitude de exemplo
-    longitude: -46.358699761376954, // Longitude de exemplo
-  };
+  const mapRef = useRef(null);
 
   const calculateRoute = async (origin, destination) => {
     try {
@@ -39,9 +59,7 @@ export default function App() {
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        return;
-      }
+      if (status !== 'granted') return;
 
       let location = await Location.getCurrentPositionAsync({});
       setLocation({
@@ -51,9 +69,19 @@ export default function App() {
         longitudeDelta: 0.0421,
       });
 
-      calculateRoute(location.coords, destination);
+      calculateRoute(location.coords, hospitals[0]); // Exemplo de rota para o primeiro hospital
     })();
   }, []);
+
+  const handleHospitalSelect = (hospital) => {
+    setSearch(hospital.name);
+    mapRef.current.animateToRegion({
+      latitude: hospital.latitude,
+      longitude: hospital.longitude,
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01,
+    }, 1000);
+  };
 
   if (!location) {
     return (
@@ -65,8 +93,8 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {/* Map View com funcionalidade de rota e localização */}
       <MapView
+        ref={mapRef}
         style={styles.map}
         initialRegion={{
           latitude: location.latitude,
@@ -77,30 +105,27 @@ export default function App() {
         showsUserLocation={true}
         showsMyLocationButton={true}
       >
-        <Marker
-          coordinate={destination}
-          title="Destino"
-          description="Ponto de chegada"
-        >
-          <FontAwesome name="flag" size={40} color="green" />
-        </Marker>
-        <Marker
-          coordinate={location}
-          title="Você está aqui"
-          description="Localização atual"
-        >
-          <FontAwesome name="map-marker" size={40} color="red" />
-        </Marker>
+        {/* Marcadores dos hospitais */}
+        {hospitals.map(hospital => (
+          <Marker
+            key={hospital.id}
+            coordinate={{ latitude: hospital.latitude, longitude: hospital.longitude }}
+            onPress={() => navigation.navigate('HospitalDetails', { hospital })}
+          >
+            <View style={styles.customMarker}>
+              <Image source={hospital.image} style={styles.markerImage} />
+            </View>
+          </Marker>
+        ))}
 
         {route.length > 0 && (
           <Polyline coordinates={route} strokeWidth={4} strokeColor="blue" />
         )}
       </MapView>
 
-      {/* Overlay que contém a barra de busca e os botões */}
+      {/* Barra de pesquisa */}
       <View style={styles.overlay}>
         <View style={styles.search}>
-          {/* Search Container */}
           <View style={styles.searchContainer}>
             <Ionicons name="search" size={24} color="gray" style={styles.searchIcon} />
             <TextInput
@@ -110,12 +135,15 @@ export default function App() {
               onChangeText={setSearch}
             />
           </View>
-          <TouchableOpacity style={styles.filterButton}>
-            <Ionicons name="options-outline" size={24} color="gray" />
+          <TouchableOpacity onPress={() => {
+            const hospital = hospitals.find(h => h.name.toLowerCase().includes(search.toLowerCase()));
+            if (hospital) handleHospitalSelect(hospital);
+          }}>
+            <Ionicons name="search" size={24} color="blue" />
           </TouchableOpacity>
         </View>
 
-        {/* Botões roxos com Scroll Horizontal */}
+        {/* Botões roxos com Scroll Horizontal (mantendo o estilo original) */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollContainer}>
           <TouchableOpacity style={styles.actionButton}>
             <Text style={styles.buttonText}>Até 5 km</Text>
@@ -135,13 +163,24 @@ export default function App() {
   );
 }
 
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="MapScreen" component={MapScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="HospitalDetails" component={HospitalDetails} options={{ title: 'Detalhes do Hospital' }} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
   },
   map: {
-    ...StyleSheet.absoluteFillObject, // Faz o mapa ocupar a tela inteira
+    ...StyleSheet.absoluteFillObject,
   },
   overlay: {
     position: 'absolute',
@@ -180,21 +219,6 @@ const styles = StyleSheet.create({
     height: '100%',
     fontSize: 16,
   },
-  filterButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: '#007AFF',
-    backgroundColor: '#fff',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 5,
-  },
   scrollContainer: {
     flexDirection: 'row',
   },
@@ -210,5 +234,22 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontSize: 16,
+  },
+  customMarker: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+    padding: 5,
+    borderRadius: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 5,
+  },
+  markerImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 5,
   },
 });
