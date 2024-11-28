@@ -1,0 +1,84 @@
+[
+  {
+    "id": 1,
+    "name": "Hospital Santa Marcelina Itaim Paulista",
+    "address": "Avenida Marechal Tito, 6035 - Jardim Jaragua (Itaim Paulista), São Paulo - SP, 08115-100",
+    "latitude": -23.492577558395457,
+    "longitude": -46.38902795310689,
+    "rating": 3.0,
+    "services": 25,
+    "images": [
+      "https://mapaabortolegal.org/wp-content/uploads/2019/03/hospital-santa-marcelina-itaim-1920x1080.jpg",
+      "https://santamarcelina.org/wp-content/uploads/2022/01/tratada.png",
+      "https://portal.coren-sp.gov.br/wp-content/uploads/2018/08/itaimhp_0203201401a.jpg"
+    ],
+    "operation": "Aberto 24 horas",
+    "specializations": ["Emergência", "Clínica Médica", "Pediatria"],
+    "insurance_accepted": ["Plano A", "Plano B", "Particular"]
+  },
+  {
+    "id": 2,
+    "name": "Hospital Municipal de Mogi das Cruzes",
+    "address": "R. Guttermann, 577 - Braz Cubas, Mogi das Cruzes - SP, 08740-320",
+    "latitude": -23.54118598710515,
+    "longitude": -46.221140871163946,
+    "rating": 4.1,
+    "services": 18,
+    "images": [
+      "https://www.mogidascruzes.sp.gov.br/public/site/imagens/6/2016012518272056a66908d868e.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzNG5M7s7axn_qc3b4NQt1FHDCh7fSHNbu-17Oj0peyujsjPtSa9_6sXHfXB6BLQAAZgc&usqp=CAU"
+    ],
+    "operation": "Aberto 24 horas",
+    "specializations": ["Ortopedia", "Ginecologia", "Cardiologia"],
+    "insurance_accepted": ["Plano C", "Plano D", "Particular"]
+  },
+  {
+    "id": 3,
+    "name": "Hospital das Clínicas Luzia de Pinho Melo",
+    "address": "R. Manuel de Oliveira, S/N - Vila Mogilar, Mogi das Cruzes - SP, 08773-130",
+    "latitude": -23.5105260749025,
+    "longitude": -46.194705481001385,
+    "rating": 3.3,
+    "services": 22,
+    "images": [
+      "https://www.mogidascruzes.sp.gov.br/public/site/imagens/6/2017050917582959120345865bf.jpg",
+      "https://s2-g1.glbimg.com/krg4LLup-xVw--60k2GlxK-NpKs=/1200x/smart/filters:cover():strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2020/y/3/OWb6liTPqp1K9zLQnA6Q/lpm-04.jpg"
+    ],
+    "operation": "Aberto 24 horas",
+    "specializations": ["Neurologia", "Oncologia", "Infectologia"],
+    "insurance_accepted": ["Plano E", "Plano F", "Particular"]
+  },
+  {
+    "id": 4,
+    "name": "Hospital Regional de Ferraz de Vasconcelos",
+    "address": "R. Princesa Isabel, 270 - Vila Correa, Ferraz de Vasconcelos - SP, 08502-200",
+    "latitude": -23.5381741491075,
+    "longitude": -46.35852944110452,
+    "rating": 2.8,
+    "services": 20,
+    "images": [
+      "https://s2-g1.glbimg.com/KJqtCge0F6oK7R9xYcXTA1zudNo=/1200x/smart/filters:cover():strip_icc()/i.s3.glbimg.com/v1/AUTH_59edd422c0c84a879bd37670ae4f538a/internal_photos/bs/2021/0/Y/dhgqudTc6ZQQoaekzdwA/c90fd68e-28fd-4ab0-8ddd-d0a1aefea1cc.jpg",
+      "https://s2-g1.glbimg.com/uFjDzmqTmVCmp8DkmoUL14XjQ9A=/0x0:720x480/984x0/smart/filters:strip_icc()/s.glbimg.com/jo/g1/f/original/2015/04/21/hosp_ferraz.jpg"
+    ],
+    "operation": "Aberto 24 horas",
+    "specializations": ["Urologia", "Dermatologia", "Clínica Geral"],
+    "insurance_accepted": ["Plano G", "Plano H", "Particular"]
+  },
+  
+  {
+    "id": 15,
+    "name": "Hospital São Paulo",
+    "address": "Escola Paulista de Medicina da Universidade Federal de São Paulo (EPM/UNIFESP)",
+    "latitude": -23.596843033393615,
+    "longitude": -46.64395647672119,
+    "rating": 3.7,
+    "services": 30,
+    "images": [
+      "https://www.hospitalsaopaulo.org.br/hsp_files/hsp%20-%20fachada.jpg",
+      "https://coronavirus.unifesp.br/images/altas_hu_portal.jpg"
+    ],
+    "operation": "Aberto 24 horas",
+    "specializations": ["Clínica Geral", "Pediatria", "Cirurgia Geral"],
+    "insurance_accepted": ["Plano Z", "Plano X", "Particular"]
+  }
+]

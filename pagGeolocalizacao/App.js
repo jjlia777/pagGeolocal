@@ -1,25 +1,26 @@
-import 'react-native-gesture-handler'; // Import no topo
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import MapScreen from './pages/MapScreen'; // Importando corretamente o MapScreen
+import MapScreen from './pages/MapScreen';
+import HospitalDetails from './pages/HospitalDetails';
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
     <NavigationContainer>
       <Stack.Navigator>
-        {/* Tela principal de mapa */}
-        <Stack.Screen 
-          name="MapScreen" 
-          component={MapScreen} 
-          options={{ headerShown: false }} 
+        <Stack.Screen
+          name="MapScreen"
+          component={MapScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="HospitalDetails"
+          component={HospitalDetails}
+          options={{ title: 'Detalhes do Hospital' }}
         />
       </Stack.Navigator>
     </NavigationContainer>
-    </GestureHandlerRootView>
   );
 }
